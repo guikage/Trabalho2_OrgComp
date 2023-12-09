@@ -12,10 +12,8 @@ uint32_t divisao1(uint32_t dividendo, uint32_t divisor){
     resto = resto | msb;
     printf("%08x %08x %08x %08x\n", iteracao, divisor, resto, dividendo);
     for(iteracao = 1; iteracao < 33; iteracao++){
-        resto = resto - divisor;
         printf("%08x %08x %08x %08x\n", iteracao, divisor, resto, dividendo);
-        if(resto < 0){
-            resto = resto + divisor;
+        if(resto < divisor){
             printf("menor\n");
             //shift
             msb = dividendo >> 31;
@@ -36,7 +34,7 @@ uint32_t divisao1(uint32_t dividendo, uint32_t divisor){
     }
     resto = resto >> 1;
     printf("%08x %08x %08x %08x\n", iteracao, divisor, resto, dividendo);
-    return dividendo;
+    return resto;
 }
 
 uint32_t divisao2(uint32_t dividendo, uint32_t divisor){
@@ -117,7 +115,7 @@ int divisaosinal(int dividendo, int divisor){
 }
 
 int main(){
-    printf("%d\n", divisaosinal(0x90357274, 0x12341234));
-    printf("%d\n", divisaosinal(0x12341234, 0x90357274));
+    //printf("%x\n", divisao2(0x90357274, 0x12341234));
+    printf("%x\n", divisao2(0x12341234, 0x90357274));
     return 0;
 }
