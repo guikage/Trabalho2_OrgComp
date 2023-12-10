@@ -1,9 +1,5 @@
 .data:
-    zero: .double 0.0
-    one: .double 1.0
-    neg_one: .double -1.0
     pi: .double 3.1415926535897932
-    one_80: .double 180.0
 
 .text:
 
@@ -22,10 +18,12 @@ init:
 pot:
     # prologo:
     mov.d $f16, $f12 #f16 = x
+
     # $f18 <- 1
-    la $t1, one
-    lwc1 $f18, 0($t1)
-    lwc1 $f19, 4($t1)
+    addi $t1, $zero, 1
+    mtc1 $t1, $f18
+    cvt.d.w $f18, $f18
+    
     addi $t0, $zero, 0 #i = 0
     addi $t1, $a0, 0
     
@@ -104,9 +102,8 @@ cos:
     swc1 $f13, 4($sp)
     addi $t0, $zero, 0
     #sp+32 <- 0
-    la $t1, zero
-    lwc1 $f10, 0($t1)
-    lwc1 $f11, 4($t1)
+    mtc1 $zero, $f10
+    cvt.d.w $f10, $f10
     swc1 $f10, 32($sp)
     swc1 $f11, 36($sp)
     #sp+44 = $ra
@@ -128,9 +125,9 @@ cos_for_corpo:
     sw $t0, 40($sp)
 
     #num = pot(-1, i)
-    la $t1, neg_one
-    lwc1 $f12, 0($t1)
-    lwc1 $f13, 4($t1)
+    addi $t1, $zero, -1
+    mtc1 $t1, $f12
+    cvt.d.w $f12, $f12
     lw $a0, 40($sp)
     jal pot
     swc1 $f0, 8($sp)
@@ -198,9 +195,9 @@ grad:
     lwc1 $f6, 0($t0)
     lwc1 $f7, 4($t0)
     #$f8 = 180
-    la $t0, one_80
-    lwc1 $f8, 0($t0)
-    lwc1 $f9, 4($t0)
+    addi $t0, $zero, 180
+    mtc1 $t0, $f8
+    cvt.d.w $f8, $f8
     
     # corpo:
     div.d $f4, $f4, $f8
